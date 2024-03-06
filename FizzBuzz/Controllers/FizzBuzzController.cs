@@ -21,9 +21,9 @@ namespace FizzBuzz.Controllers
 
 
         [HttpPost]
-        public ActionResult PrintFizzBuzz(string[] arr)
+        public ActionResult PrintFizzBuzz(List<string> list)
         {
-                var result = _fizzBuzzService.CalculateFizzBuzz(arr);
+                var result = _fizzBuzzService.CalculateFizzBuzz(list);
                 return Ok(result);
             
         }

@@ -2,6 +2,6 @@
 {
     public interface ICalculateFizzBuzzService
     {
-        List<string> CalculateFizzBuzz(string[] arr);
+        List<string> CalculateFizzBuzz(List<string> list);
     }
 }

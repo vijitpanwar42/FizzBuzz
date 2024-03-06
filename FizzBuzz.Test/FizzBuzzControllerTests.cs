@@ -9,7 +9,7 @@ namespace FizzBuzz.Test
     {
 
         private Mock<ICalculateFizzBuzzService> _fizzbuzzService;
-        string[] arr = { "1", "2"};
+        List<string> arr = new List<string>{ "1", "2"};
         private List<string> ls = new List<string>();
         [SetUp]
         public void Setup()
@@ -39,7 +39,7 @@ namespace FizzBuzz.Test
         [Test]
         public void TesttoCalculateFizzBuzz()
         {
-            string[] arr = {"15"};
+            List<string> arr = new List<string> {"15"};
             var fizzBuzzService = new CalculateFizzBuzzService();
             var result = fizzBuzzService.CalculateFizzBuzz(arr);
             Assert.IsTrue(result.Contains("15-FizzBuzz"));
@@ -49,7 +49,7 @@ namespace FizzBuzz.Test
         [Test]
         public void TesttoCalculateInValidInput()
         {
-            string[] arr = { "A" };
+            List<string> arr = new List<string> { "A" };
             var fizzBuzzService = new CalculateFizzBuzzService();
             var result = fizzBuzzService.CalculateFizzBuzz(arr);
             Assert.IsTrue(result.Contains("A-Invalid Item"));
@@ -59,7 +59,7 @@ namespace FizzBuzz.Test
         [Test]
         public void TesttoCalculateFizzOnly()
         {
-            string[] arr = { "3" };
+            List<string> arr = new List<string> { "3" };
             var fizzBuzzService = new CalculateFizzBuzzService();
             var result = fizzBuzzService.CalculateFizzBuzz(arr);
             Assert.IsTrue(result.Contains("3-Fizz"));
@@ -69,7 +69,7 @@ namespace FizzBuzz.Test
         [Test]
         public void TesttoCalculateBuzzOnly()
         {
-            string[] arr = { "5" };
+            List<string> arr = new List<string> { "5" };
             var fizzBuzzService = new CalculateFizzBuzzService();
             var result = fizzBuzzService.CalculateFizzBuzz(arr);
             Assert.IsTrue(result.Contains("5-Buzz"));

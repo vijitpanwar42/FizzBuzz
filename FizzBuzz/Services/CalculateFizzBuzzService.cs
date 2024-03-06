@@ -6,38 +6,41 @@ namespace FizzBuzz.Services
 {
     public class CalculateFizzBuzzService : ICalculateFizzBuzzService
     {
-        public List<string> CalculateFizzBuzz(string[] arr)
+        public List<string> CalculateFizzBuzz(List<string> list)
         {
             List<string> result = new List<string>();
-
-            for (int j = 0; j < arr.Length; j++)
+            int i;
+            if (list.Count > 0)
             {
-                if (arr[j].Any(char.IsDigit))
+                foreach (string item in list)
                 {
-                    int i = int.Parse(arr[j]);
-                    if (i % 3 == 0 && i % 5 == 0)
+                    if (int.TryParse(item, out i))
                     {
-                        result.Add(i + "-" + FizzBuzzConstants.FizzBuzz);
-                    }
-                    else if (i % 3 == 0)
-                    {
-                        result.Add(i + "-" + FizzBuzzConstants.Fizz);
-                    }
-                    else if (i % 5 == 0)
-                    {
-                        result.Add(i + "-" + FizzBuzzConstants.Buzz);
+                        if (i % 3 == 0 && i % 5 == 0)
+                        {
+                            result.Add(i + "-" + FizzBuzzConstants.FizzBuzz);
+                        }
+                        else if (i % 3 == 0)
+                        {
+                            result.Add(i + "-" + FizzBuzzConstants.Fizz);
+                        }
+                        else if (i % 5 == 0)
+                        {
+                            result.Add(i + "-" + FizzBuzzConstants.Buzz);
+                        }
+                        else
+                        {
+                            result.Add(i + "-" + FizzBuzzConstants.Dividedby3);
+
+                            result.Add(i + "-" + FizzBuzzConstants.Dividedby5);
+                        }
                     }
                     else
                     {
-                        result.Add(i + "-" + FizzBuzzConstants.Dividedby3+ " " + FizzBuzzConstants.Dividedby5);
+                        result.Add(item + "-" + FizzBuzzConstants.InvalidItem);
                     }
                 }
-                else
-                {
-                    result.Add(arr[j] + "-" + FizzBuzzConstants.InvalidItem);
-                }
             }
-
             return result;
         }
     }
