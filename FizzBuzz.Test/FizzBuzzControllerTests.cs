@@ -10,20 +10,21 @@ namespace FizzBuzz.Test
 
         private Mock<ICalculateFizzBuzzService> _fizzbuzzService;
         string[] arr = { "1", "2"};
-        private Dictionary<int, string> dict;
+        private List<string> ls = new List<string>();
         [SetUp]
         public void Setup()
         {
             _fizzbuzzService = new Mock<ICalculateFizzBuzzService>();
-            dict = new Dictionary<int, string>();
-            dict.Add(5, "Fizz");
+            ls.Add("FizzBuzz");
+            ls.Add("FiZZ");
+            ls.Add("Buzz");
         }
 
         [Test]
         public void PrintFizzBuzzTest()
         {
             //Act
-            _fizzbuzzService.Setup(a => a.CalculateFizzBuzz(arr)).Returns(dict);
+            _fizzbuzzService.Setup(a => a.CalculateFizzBuzz(arr)).Returns(ls);
 
             //Arrange
             var fizzBuzzController = new FizzBuzzController(_fizzbuzzService.Object);
@@ -36,11 +37,42 @@ namespace FizzBuzz.Test
         }
 
         [Test]
-        public void TestPrintFizzBuzzService()
+        public void TesttoCalculateFizzBuzz()
         {
+            string[] arr = {"15"};
             var fizzBuzzService = new CalculateFizzBuzzService();
             var result = fizzBuzzService.CalculateFizzBuzz(arr);
-            Assert.IsTrue(result.Count == 2);
+            Assert.IsTrue(result.Contains("15-FizzBuzz"));
+
+        }
+
+        [Test]
+        public void TesttoCalculateInValidInput()
+        {
+            string[] arr = { "A" };
+            var fizzBuzzService = new CalculateFizzBuzzService();
+            var result = fizzBuzzService.CalculateFizzBuzz(arr);
+            Assert.IsTrue(result.Contains("A-Invalid Item"));
+
+        }
+
+        [Test]
+        public void TesttoCalculateFizzOnly()
+        {
+            string[] arr = { "3" };
+            var fizzBuzzService = new CalculateFizzBuzzService();
+            var result = fizzBuzzService.CalculateFizzBuzz(arr);
+            Assert.IsTrue(result.Contains("3-Fizz"));
+
+        }
+
+        [Test]
+        public void TesttoCalculateBuzzOnly()
+        {
+            string[] arr = { "5" };
+            var fizzBuzzService = new CalculateFizzBuzzService();
+            var result = fizzBuzzService.CalculateFizzBuzz(arr);
+            Assert.IsTrue(result.Contains("5-Buzz"));
 
         }
     }

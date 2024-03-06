@@ -23,18 +23,9 @@ namespace FizzBuzz.Controllers
         [HttpPost]
         public ActionResult PrintFizzBuzz(string[] arr)
         {
-            bool allints = arr.All(x => Regex.IsMatch(x, @"^[0-9]*$"));
-
-            if (allints)
-            {
                 var result = _fizzBuzzService.CalculateFizzBuzz(arr);
                 return Ok(result);
-            }
-            else
-            {
-                return BadRequest("Invalid Item.");
-            }
-
+            
         }
     }
 }

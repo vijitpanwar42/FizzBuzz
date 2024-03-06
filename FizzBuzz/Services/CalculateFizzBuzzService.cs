@@ -1,35 +1,43 @@
-﻿using System.Text.RegularExpressions;
+﻿using FizzBuzz.Constants;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace FizzBuzz.Services
 {
     public class CalculateFizzBuzzService : ICalculateFizzBuzzService
     {
-        public Dictionary<int, string> CalculateFizzBuzz(string[] arrString)
+        public List<string> CalculateFizzBuzz(string[] arr)
         {
-            Dictionary<int,string> result = new Dictionary<int, string>();
+            List<string> result = new List<string>();
 
-            int[] arr = arrString.Select(s => int.Parse(s)).ToArray();
-            
-
-            for (int i = 0; i <= arr.Length - 1; i++)
+            for (int j = 0; j < arr.Length; j++)
             {
-                if (arr[i] % 3 == 0 && arr[i] % 5 == 0)
+                if (arr[j].Any(char.IsDigit))
                 {
-                    result.Add(arr[i], "FizzBuzz");
-                }
-                else if (arr[i] % 3 == 0)
-                {
-                    result.Add(arr[i], "Fizz");
-                }
-                else if (arr[i] % 5 == 0)
-                {
-                    result.Add(arr[i], "Buzz");
+                    int i = int.Parse(arr[j]);
+                    if (i % 3 == 0 && i % 5 == 0)
+                    {
+                        result.Add(i + "-" + FizzBuzzConstants.FizzBuzz);
+                    }
+                    else if (i % 3 == 0)
+                    {
+                        result.Add(i + "-" + FizzBuzzConstants.Fizz);
+                    }
+                    else if (i % 5 == 0)
+                    {
+                        result.Add(i + "-" + FizzBuzzConstants.Buzz);
+                    }
+                    else
+                    {
+                        result.Add(i + "-" + FizzBuzzConstants.Dividedby3+ " " + FizzBuzzConstants.Dividedby5);
+                    }
                 }
                 else
                 {
-                    result.Add(arr[i], "Divided " + arr[i].ToString() + " by 3 " + "Divided " + arr[i].ToString() + " by 5");
+                    result.Add(arr[j] + "-" + FizzBuzzConstants.InvalidItem);
                 }
             }
+
             return result;
         }
     }
