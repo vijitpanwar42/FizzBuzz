@@ -8,16 +8,13 @@ namespace FizzBuzz.Test
     public class FizzBuzzControllerTests
     {
 
-        private Mock<IFizzBuzzService> _fizzbuzzService;
-        private int[] arr;
+        private Mock<ICalculateFizzBuzzService> _fizzbuzzService;
+        string[] arr = { "1", "2"};
         private Dictionary<int, string> dict;
         [SetUp]
         public void Setup()
         {
-            _fizzbuzzService = new Mock<IFizzBuzzService>();
-            arr = new int[2];
-            arr[0] = 1;
-            arr[1] = 2;
+            _fizzbuzzService = new Mock<ICalculateFizzBuzzService>();
             dict = new Dictionary<int, string>();
             dict.Add(5, "Fizz");
         }
@@ -26,7 +23,7 @@ namespace FizzBuzz.Test
         public void PrintFizzBuzzTest()
         {
             //Act
-            _fizzbuzzService.Setup(a => a.PrintFizzBuzz(arr)).Returns(dict);
+            _fizzbuzzService.Setup(a => a.CalculateFizzBuzz(arr)).Returns(dict);
 
             //Arrange
             var fizzBuzzController = new FizzBuzzController(_fizzbuzzService.Object);
@@ -41,8 +38,8 @@ namespace FizzBuzz.Test
         [Test]
         public void TestPrintFizzBuzzService()
         {
-            var fizzBuzzService = new FizzBuzzService();
-            var result = fizzBuzzService.PrintFizzBuzz(arr);
+            var fizzBuzzService = new CalculateFizzBuzzService();
+            var result = fizzBuzzService.CalculateFizzBuzz(arr);
             Assert.IsTrue(result.Count == 2);
 
         }

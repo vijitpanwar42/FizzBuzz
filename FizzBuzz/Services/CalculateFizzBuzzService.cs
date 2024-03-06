@@ -1,16 +1,21 @@
-﻿namespace FizzBuzz.Services
+﻿using System.Text.RegularExpressions;
+
+namespace FizzBuzz.Services
 {
-    public class FizzBuzzService : IFizzBuzzService
+    public class CalculateFizzBuzzService : ICalculateFizzBuzzService
     {
-        public Dictionary<int, string> PrintFizzBuzz(int[] arr)
+        public Dictionary<int, string> CalculateFizzBuzz(string[] arrString)
         {
             Dictionary<int,string> result = new Dictionary<int, string>();
+
+            int[] arr = arrString.Select(s => int.Parse(s)).ToArray();
+            
 
             for (int i = 0; i <= arr.Length - 1; i++)
             {
                 if (arr[i] % 3 == 0 && arr[i] % 5 == 0)
                 {
-                    result.Add(arr[i],"FizzBuzz");
+                    result.Add(arr[i], "FizzBuzz");
                 }
                 else if (arr[i] % 3 == 0)
                 {
@@ -22,7 +27,7 @@
                 }
                 else
                 {
-                    result.Add(arr[i],"Divided " + arr[i].ToString() + " by 3 " + "Divided " + arr[i].ToString() + " by 5");
+                    result.Add(arr[i], "Divided " + arr[i].ToString() + " by 3 " + "Divided " + arr[i].ToString() + " by 5");
                 }
             }
             return result;

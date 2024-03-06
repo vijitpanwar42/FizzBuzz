@@ -1,5 +1,8 @@
 ﻿using FizzBuzz.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace FizzBuzz.Controllers
 {
@@ -9,19 +12,29 @@ namespace FizzBuzz.Controllers
     public class FizzBuzzController : Controller
     {
 
-        private readonly IFizzBuzzService _fizzBuzzService;
+        private readonly ICalculateFizzBuzzService _fizzBuzzService;
 
-        public FizzBuzzController(IFizzBuzzService fizzBuzzService)
+        public FizzBuzzController(ICalculateFizzBuzzService fizzBuzzService)
         {
             _fizzBuzzService = fizzBuzzService;
         }
 
 
         [HttpPost]
-        public ActionResult PrintFizzBuzz(int[] arr)
+        public ActionResult PrintFizzBuzz(string[] arr)
         {
-            var res = _fizzBuzzService.PrintFizzBuzz(arr);
-            return Ok(res);
+            bool allints = arr.All(x => Regex.IsMatch(x, @"^[0-9]*$"));
+
+            if (allints)
+            {
+                var result = _fizzBuzzService.CalculateFizzBuzz(arr);
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Invalid Item.");
+            }
+
         }
     }
 }
