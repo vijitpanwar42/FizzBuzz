@@ -2,27 +2,30 @@
 {
     public class FizzBuzzService : IFizzBuzzService
     {
-        public string PrintFizzBuzz(int i)
+        public Dictionary<int, string> PrintFizzBuzz(int[] arr)
         {
-            string res = string.Empty;
+            Dictionary<int,string> result = new Dictionary<int, string>();
 
-            if (i % 3 == 0 && i % 5 == 0)
+            for (int i = 0; i <= arr.Length - 1; i++)
             {
-                res = "FizzBuzz";
+                if (arr[i] % 3 == 0 && arr[i] % 5 == 0)
+                {
+                    result.Add(arr[i],"FizzBuzz");
+                }
+                else if (arr[i] % 3 == 0)
+                {
+                    result.Add(arr[i], "Fizz");
+                }
+                else if (arr[i] % 5 == 0)
+                {
+                    result.Add(arr[i], "Buzz");
+                }
+                else
+                {
+                    result.Add(arr[i],"Divided " + arr[i].ToString() + " by 3 " + "Divided " + arr[i].ToString() + " by 5");
+                }
             }
-            else if (i % 3 == 0)
-            {
-                res = "Fizz";
-            }
-            else if (i % 5 == 0)
-            {
-                res = "Buzz";
-            }
-            else
-            {
-                res = "Divided " + i.ToString() + " by 3\n" + "Divided " + i.ToString() + " by 5";
-            }
-            return res;
+            return result;
         }
     }
 }

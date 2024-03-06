@@ -18,9 +18,9 @@ namespace FizzBuzz.Controllers
 
 
         [HttpPost]
-        public ActionResult PrintFizzBuzz(int i)
+        public ActionResult PrintFizzBuzz(int[] arr)
         {
-            string res = _fizzBuzzService.PrintFizzBuzz(i);
+            var res = _fizzBuzzService.PrintFizzBuzz(arr);
             return Ok(res);
         }
     }

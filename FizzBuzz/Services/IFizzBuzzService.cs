@@ -2,6 +2,6 @@
 {
     public interface IFizzBuzzService
     {
-        string PrintFizzBuzz(int n);
+        Dictionary<int,string> PrintFizzBuzz(int[] arr);
     }
 }
