@@ -9,22 +9,24 @@ namespace FizzBuzz.Test
     {
 
         private Mock<ICalculateFizzBuzzService> _fizzbuzzService;
-        List<string> arr = new List<string>{ "1", "2"};
-        private List<string> ls = new List<string>();
+        private readonly List<string> list = new List<string>();
+
         [SetUp]
         public void Setup()
         {
             _fizzbuzzService = new Mock<ICalculateFizzBuzzService>();
-            ls.Add("FizzBuzz");
-            ls.Add("FiZZ");
-            ls.Add("Buzz");
+            list.Add("FizzBuzz");
+            list.Add("FiZZ");
+            list.Add("Buzz");
         }
 
         [Test]
         public void PrintFizzBuzzTest()
         {
+
+            List<string> arr = new List<string> { "1" };
             //Act
-            _fizzbuzzService.Setup(a => a.CalculateFizzBuzz(arr)).Returns(ls);
+            _fizzbuzzService.Setup(a => a.CalculateFizzBuzz(arr)).Returns(list);
 
             //Arrange
             var fizzBuzzController = new FizzBuzzController(_fizzbuzzService.Object);
@@ -39,7 +41,7 @@ namespace FizzBuzz.Test
         [Test]
         public void TesttoCalculateFizzBuzz()
         {
-            List<string> arr = new List<string> {"15"};
+            List<string> arr = new List<string> { "15" };
             var fizzBuzzService = new CalculateFizzBuzzService();
             var result = fizzBuzzService.CalculateFizzBuzz(arr);
             Assert.IsTrue(result.Contains("15-FizzBuzz"));
