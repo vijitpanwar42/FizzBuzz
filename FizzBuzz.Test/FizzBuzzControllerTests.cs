@@ -1,81 +1,85 @@
-using FizzBuzz.Controllers;
-using FizzBuzz.Services;
+using FizzBuzzApp.ConcreteFactories;
+using FizzBuzzApp.ConcreteProducts;
+using FizzBuzzApp.Controllers;
+using FizzBuzzApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-namespace FizzBuzz.Test
+namespace FizzBuzzApp.Test
 {
     public class FizzBuzzControllerTests
     {
 
-        private Mock<ICalculateFizzBuzzService> _fizzbuzzService;
+        private Mock<IFizzBuzzCalculator> _fizzBuzzCalculator;
+        private Mock<IFizzBuzzFactory> _factory;
         private readonly List<string> list = new List<string>();
 
         [SetUp]
         public void Setup()
         {
-            _fizzbuzzService = new Mock<ICalculateFizzBuzzService>();
+            _fizzBuzzCalculator = new Mock<IFizzBuzzCalculator>();
+            _factory = new Mock<IFizzBuzzFactory>();
             list.Add("FizzBuzz");
-            list.Add("FiZZ");
+            list.Add("Fizz");
             list.Add("Buzz");
         }
 
         [Test]
-        public void PrintFizzBuzzTest()
+        public void CalculateFizzBuzz_WithValidInput_ShouldReturnOkStatusAndCorrectList()
         {
+            // Arrange
+            List<string> inputList = new List<string> { "1" };
+            _fizzBuzzCalculator.Setup(a => a.CalculateFizzBuzz(inputList)).Returns(list);
+            var fizzBuzzController = new FizzBuzzController(_fizzBuzzCalculator.Object);
 
-            List<string> arr = new List<string> { "1" };
-            //Act
-            _fizzbuzzService.Setup(a => a.CalculateFizzBuzz(arr)).Returns(list);
+            // Act
+            var result = fizzBuzzController.CalculateFizzBuzz(inputList) as OkObjectResult;
 
-            //Arrange
-            var fizzBuzzController = new FizzBuzzController(_fizzbuzzService.Object);
-            var result = fizzBuzzController.PrintFizzBuzz(arr) as OkObjectResult;
-
-            //Assert
-            Assert.IsTrue(result.StatusCode == 200);
+            // Assert
             Assert.IsNotNull(result);
-
+            Assert.AreEqual(200, result.StatusCode);
+            CollectionAssert.AreEqual(list, result.Value as List<string>);
         }
 
         [Test]
-        public void TesttoCalculateFizzBuzz()
+        public void CalculateFizzBuzz_WithValidNumbers_ShouldReturnCorrectResults()
         {
-            List<string> arr = new List<string> { "15" };
-            var fizzBuzzService = new CalculateFizzBuzzService();
-            var result = fizzBuzzService.CalculateFizzBuzz(arr);
-            Assert.IsTrue(result.Contains("15-FizzBuzz"));
+            // Arrange
+            _factory.Setup(factory => factory.CreateFizzBuzzResult(It.IsAny<int>()))
+                       .Returns<int>(number =>
+                       {
+                           if (number % 3 == 0 && number % 5 == 0)
+                               return new FizzBuzz();
+                           else if (number % 3 == 0)
+                               return new Fizz();
+                           else if (number % 5 == 0)
+                               return new Buzz();
+                           else
+                               return new DividedBy3And5();
+                       });
 
+            var fizzBuzzCalculator = new FizzBuzzCalculator(_factory.Object);
+
+            // Act
+            var result = fizzBuzzCalculator.CalculateFizzBuzz(new List<string> { "3", "5", "15", "7", "11" });
+
+            // Assert
+            CollectionAssert.AreEqual(new[] { "3-Fizz", "5-Buzz", "15-FizzBuzz", "7-Divided by 3 and Divided by 5", "11-Divided by 3 and Divided by 5" }, result);
         }
 
         [Test]
-        public void TesttoCalculateInValidInput()
+        public void CalculateFizzBuzz_WithInvalidInput_ShouldReturnInvalidItem()
         {
-            List<string> arr = new List<string> { "A" };
-            var fizzBuzzService = new CalculateFizzBuzzService();
-            var result = fizzBuzzService.CalculateFizzBuzz(arr);
-            Assert.IsTrue(result.Contains("A-Invalid Item"));
+            // Arrange
+            var mockFactory = new Mock<IFizzBuzzFactory>();
+            var fizzBuzzCalculator = new FizzBuzzCalculator(mockFactory.Object);
 
+            // Act
+            var result = fizzBuzzCalculator.CalculateFizzBuzz(new List<string> { "invalid", "12a", "abc" });
+
+            // Assert
+            CollectionAssert.AreEqual(new[] { "invalid-Invalid Item", "12a-Invalid Item", "abc-Invalid Item" }, result);
         }
 
-        [Test]
-        public void TesttoCalculateFizzOnly()
-        {
-            List<string> arr = new List<string> { "3" };
-            var fizzBuzzService = new CalculateFizzBuzzService();
-            var result = fizzBuzzService.CalculateFizzBuzz(arr);
-            Assert.IsTrue(result.Contains("3-Fizz"));
-
-        }
-
-        [Test]
-        public void TesttoCalculateBuzzOnly()
-        {
-            List<string> arr = new List<string> { "5" };
-            var fizzBuzzService = new CalculateFizzBuzzService();
-            var result = fizzBuzzService.CalculateFizzBuzz(arr);
-            Assert.IsTrue(result.Contains("5-Buzz"));
-
-        }
     }
 }

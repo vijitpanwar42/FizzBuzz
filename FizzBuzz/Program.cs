@@ -1,7 +1,8 @@
 
-using FizzBuzz.Services;
+using FizzBuzzApp.ConcreteFactories;
+using FizzBuzzApp.Services;
 
-namespace FizzBuzz
+namespace FizzBuzzApp
 {
     public class Program
     {
@@ -15,7 +16,8 @@ namespace FizzBuzz
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddScoped<ICalculateFizzBuzzService, CalculateFizzBuzzService>();
+            builder.Services.AddScoped<IFizzBuzzCalculator, FizzBuzzCalculator>();
+            builder.Services.AddScoped<IFizzBuzzFactory, FizzBuzzFactory>();
 
             var app = builder.Build();
 

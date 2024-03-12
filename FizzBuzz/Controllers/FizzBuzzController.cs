@@ -1,10 +1,7 @@
-﻿using FizzBuzz.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using FizzBuzzApp.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Text.RegularExpressions;
 
-namespace FizzBuzz.Controllers
+namespace FizzBuzzApp.Controllers
 {
 
     [ApiController]
@@ -12,20 +9,19 @@ namespace FizzBuzz.Controllers
     public class FizzBuzzController : Controller
     {
 
-        private readonly ICalculateFizzBuzzService _fizzBuzzService;
+        private readonly IFizzBuzzCalculator _fizzBuzzService;
 
-        public FizzBuzzController(ICalculateFizzBuzzService fizzBuzzService)
+        public FizzBuzzController(IFizzBuzzCalculator fizzBuzzService)
         {
             _fizzBuzzService = fizzBuzzService;
         }
 
 
         [HttpPost]
-        public ActionResult PrintFizzBuzz(List<string> list)
+        public ActionResult CalculateFizzBuzz(List<string> list)
         {
-                var result = _fizzBuzzService.CalculateFizzBuzz(list);
-                return Ok(result);
-            
+              var result = _fizzBuzzService.CalculateFizzBuzz(list);
+              return Ok(result);
         }
     }
 }
